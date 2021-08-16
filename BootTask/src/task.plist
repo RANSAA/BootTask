@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>arguments</key>
+	<array>
+		<string>~/.ssh/RANSAA-GitHub</string>
+	</array>
+	<key>launchPath</key>
+	<string>/usr/bin/ssh-add</string>
+	<key>mark</key>
+	<dict>
+		<key>task.plist文件说明</key>
+		<string>这是一个shell静默执行脚本，如果需要访问除了用户目录(Downloads，Pictures，Music，Movies)之外的程序，需要完整的磁盘访问权限。</string>
+		<key>参数：launchPath</key>
+		<string>需要执行程序的完整路径</string>
+		<key>参数：arguments</key>
+		<string>输入的参数列表</string>
+	</dict>
+</dict>
+</plist>
