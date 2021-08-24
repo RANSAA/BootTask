@@ -3,8 +3,19 @@
 <plist version="1.0">
 <dict>
 	<key>mark</key>
-	<string>可以直接修改shell以支持不同的命令</string>
-	<key>shell</key>
-	<string>ssh-add ~/.ssh/RANSAA-GitHub</string>
+	<string>可以在list中添加shell命令</string>
+	<key>mark2</key>
+	<string>如果一个任务有多个命令可直接用；分割开</string>
+	<key>sudo命令，请注意具体格式，其中123是用户密码</key>
+	<string>sudo -S sntp -sS 182.92.12.11 &lt;&lt; EOF
+123
+EOF</string>
+	<key>list</key>
+	<dict>
+		<key>BootGithubTask</key>
+		<string>ssh-add ~/.ssh/RANSAA-GitHub</string>
+		<key>测试多个命令</key>
+		<string>echo 1; echo 2</string>
+	</dict>
 </dict>
 </plist>

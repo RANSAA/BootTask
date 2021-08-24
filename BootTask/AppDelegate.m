@@ -6,9 +6,11 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<NSWindowDelegate>
 
+@property(nonatomic, strong) NSWindow *window;
 
 @end
 
@@ -16,6 +18,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+
+    [self setupUI];
 }
 
 
@@ -23,5 +27,22 @@
     // Insert code here to tear down your application
 }
 
+
+
+
+- (void)setupUI
+{
+    NSRect rect = CGRectMake(0, 0, 320, 120);
+    self.window = [[NSWindow alloc] initWithContentRect:rect styleMask:NSWindowStyleMaskMiniaturizable|NSWindowStyleMaskClosable|NSWindowStyleMaskResizable backing:NSBackingStoreBuffered defer:NO];
+    self.window.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+    self.window.delegate = self;
+    [self.window makeKeyWindow];
+
+
+    ViewController *vc = [[ViewController alloc] init];
+    self.window.contentViewController = vc;
+
+    [NSApp beginModalSessionForWindow:self.window];
+}
 
 @end
