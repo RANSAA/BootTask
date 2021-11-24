@@ -3,19 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>mark</key>
-	<string>可以在list中添加shell命令</string>
+	<string>可以在list中添加shell命令，命令执行顺序：先加入先执行</string>
 	<key>mark2</key>
 	<string>如果一个任务有多个命令可直接用；分割开</string>
-	<key>sudo命令，请注意具体格式，其中123是用户密码</key>
+	<key>sudo命令同时输入密码方式2：其中123是用户密码</key>
 	<string>sudo -S sntp -sS 182.92.12.11 &lt;&lt; EOF
 123
 EOF</string>
+	<key>sudo命令同时输入密码方式1：其中123是用户密码</key>
+	<string>echo &quot;123&quot; | sudo -S sntp -sS 182.92.12.11</string>
 	<key>list</key>
-	<dict>
-		<key>BootGithubTask</key>
+	<array>
+		<string>ssh-add ~/.ssh/ctsfork-GitHub</string>
 		<string>ssh-add ~/.ssh/RANSAA-GitHub</string>
-		<key>测试多个命令</key>
 		<string>echo 1; echo 2</string>
-	</dict>
+	</array>
 </dict>
 </plist>

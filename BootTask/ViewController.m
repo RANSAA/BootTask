@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self runLoop];
+    [self run];
 }
 
 - (void)loadView
@@ -40,49 +40,19 @@
 }
 
 
-- (void)runLoop
+
+
+- (void)run
 {
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"task" ofType:@"plist"];
-//    NSDictionary *src = [NSDictionary dictionaryWithContentsOfFile:path];
-//    NSDictionary *list = src[@"list"];
-//    NSArray *names = [list.allKeys sortedArrayUsingSelector:@selector(compare:)];
-//
-//    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-//    queue.maxConcurrentOperationCount = 1;
-//    for (NSString *name in names) {
-//        NSString *shellStr = list[name];
-//        [queue addBarrierBlock:^{
-//            [self taskWithName:name arguments:shellStr];
-//
-//        }];
-//    }
-//
-//    [queue addBarrierBlock:^{
-//        exit(0);
-//    }];
-
-
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
-    dispatch_group_enter(group);//任务数 +1
-    dispatch_async(queue, ^{
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"task" ofType:@"plist"];
-        NSDictionary *src = [NSDictionary dictionaryWithContentsOfFile:path];
-        NSDictionary *list = src[@"list"];
-        NSArray *names = [list.allKeys sortedArrayUsingSelector:@selector(compare:)];
-        for (NSString *name in names) {
-            NSString *shellStr = list[name];
-            [self taskWithName:name arguments:shellStr];
-        }
-        dispatch_group_leave(group);//任务数 -1
-    });
-
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        exit(0);
-    });
-
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"task" ofType:@"plist"];
+    NSDictionary *src = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSArray *list = src[@"list"];
+    for (NSString *shell in list) {
+        [self taskWithArguments:shell];
+    }
+    exit(0);
 }
+
 
 //使用-c, shell命令以为一个合成的字符串
 //shellStr:需要执行shell命令的字符串
@@ -98,8 +68,27 @@
     NSFileHandle *handle = [pipe fileHandleForReading];
     [certTask launch];
 
+
     NSString *shellResult = [[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
     printf("%s: %s",name.UTF8String,shellResult.UTF8String);
+}
+
+//使用-c, shell命令以为一个合成的字符串
+//shellStr:需要执行shell命令的字符串
+- (void)taskWithArguments:(NSString *)shellStr
+{
+    NSTask *certTask = [[NSTask alloc]init];
+    [certTask setLaunchPath:@"/bin/bash"];
+    [certTask setArguments:@[@"-c",shellStr,]];//数组中使用两个item即可
+
+    NSPipe *pipe = [NSPipe pipe];
+    [certTask setStandardOutput:pipe];
+    [certTask setStandardError:pipe];
+    NSFileHandle *handle = [pipe fileHandleForReading];
+    [certTask launch];
+
+    NSString *shellResult = [[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+    printf("%s: %s",shellStr.UTF8String,shellResult.UTF8String);
 }
 
 
