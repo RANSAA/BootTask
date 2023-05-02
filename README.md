@@ -1,3 +1,5 @@
+# 警告⚠️：该项目已弃用，推荐使用[GeneralExec](https://github.com/RANSAA/GeneralExec)
+
 # BootTask
 静默执行shell脚本，可编辑！
 
